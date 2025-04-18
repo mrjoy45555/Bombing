@@ -1,20 +1,4 @@
-async function delaySystem(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
-async function smsBomber({ phone, amount }) {
-    let systemFinishedT = false;
-    console.log(chalk.gray(`[${dayjs().format('YYYY-MM-DD HH:mm:ss')}] > `) + chalk.greenBright("[smsSystem]") + chalk.blueBright(` ${phone} numarasına ${amount} adet sms gönderiliyor.`));
-    const queryPromise = new Promise(async (resolve, reject) => {
-        try {
-            let dataSb = {
-                startDate: Date.now(),
-                phone: phone,
-                amount: amount,
-                total: 0,
-                success: 0,
-                error: 0,
-            };
             {
   "info": "Get latest APIs from <https://proxy.neopandora.com/v1.json>",
   "apis": [
